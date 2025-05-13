@@ -49,6 +49,9 @@
 #undef main
 #endif
 
+#include "modio/ModioSDK.h"
+#include <thread>
+
 void CGraph::Init(float Min, float Max)
 {
 	m_MinRange = m_Min = Min;
@@ -2002,6 +2005,17 @@ void CClient::Run()
 	// process pending commands
 	m_pConsole->StoreCommands(false);
 
+	bool Continue = true;
+	dbg_msg("modio", "Staring Handlers Thread.");
+	std::thread HandlerThread = std::thread([&Continue]()
+		{
+			while (Continue)
+			{
+				Modio::RunPendingHandlers();
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			}
+		});
+
 	while (1)
 	{
 		//
@@ -2165,6 +2179,8 @@ void CClient::Run()
 		// update local time
 		m_LocalTime = (time_get()-m_LocalStartTime)/(float)time_freq();
 	}
+
+	Continue = false;
 
 	GameClient()->OnShutdown();
 	Disconnect();

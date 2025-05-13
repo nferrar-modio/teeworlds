@@ -1,0 +1,5 @@
+#pragma once
+
+#cmakedefine MODIO_GAME_ID @MODIO_GAME_ID@
+#cmakedefine MODIO_GAME_API_KEY "@MODIO_GAME_API_KEY@"
+#cmakedefine MODIO_SERVER_TOKEN "@MODIO_SERVER_TOKEN@"

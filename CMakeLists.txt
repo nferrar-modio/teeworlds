@@ -33,6 +33,8 @@ set(ORIGINAL_CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES})
 set(OWN_CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 set(CMAKE_MODULE_PATH ${OWN_CMAKE_MODULE_PATH})
 
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
   set(TARGET_BITS "32")
 else()
@@ -1381,6 +1383,8 @@ list(APPEND TARGETS_OWN engine-shared game-shared)
 ## MODIO
 set(MODIO_PLATFORM WIN)
 add_subdirectory(src/modio-sdk EXCLUDE_FROM_ALL)
+configure_file(cmake/ModioDefines.h.in ${CMAKE_BINARY_DIR}/generated/ModioDefines.h)
+target_sources(platform INTERFACE ${CMAKE_BINARY_DIR}/generated/ModioDefines.h)
 
 ########################################################################
 # CLIENT
