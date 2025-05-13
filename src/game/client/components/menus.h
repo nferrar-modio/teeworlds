@@ -22,7 +22,6 @@
 
 #include "skins.h"
 
-
 // component to fetch keypresses, override all other input
 class CMenusKeyBinder : public CComponent
 {
@@ -86,6 +85,7 @@ private:
 		PAGE_SETTINGS,
 		PAGE_SYSTEM,
 		PAGE_START,
+		PAGE_MODS,
 
 		SETTINGS_GENERAL=0,
 		SETTINGS_PLAYER,
@@ -531,6 +531,12 @@ private:
 	void RenderServerControl(CUIRect MainView);
 	void RenderServerControlKick(CUIRect MainView, bool FilterSpectators);
 	bool RenderServerControlServer(CUIRect MainView);
+
+	// found in menus_mods.cpp
+	bool InitializeModio();
+	bool IsUserAuthenticated();
+	void RenderModsMenu(CUIRect MainView);
+	void RenderLoginBox(CUIRect View);
 
 	// found in menus_browser.cpp
 	void RenderServerbrowserServerList(CUIRect View);

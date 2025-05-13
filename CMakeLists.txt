@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12...3.27.4)
+cmake_minimum_required(VERSION 3.20...3.27.4)
 
 file(STRINGS src/game/version.h VERSION_LINE
   LIMIT_COUNT 1
@@ -1371,13 +1371,16 @@ set(GAME_GENERATED_SHARED
 set(DEPS ${DEP_JSON} ${DEP_MD5} ${ZLIB_DEP})
 
 # Libraries
-set(LIBS ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES} ${CRYPTO_LIBRARIES} ${PLATFORM_LIBS})
+set(LIBS ${CMAKE_THREAD_LIBS_INIT} ${ZLIB_LIBRARIES} ${CRYPTO_LIBRARIES} ${PLATFORM_LIBS} modioStatic)
 
 # Targets
 add_library(engine-shared EXCLUDE_FROM_ALL OBJECT ${ENGINE_INTERFACE} ${ENGINE_SHARED} ${ENGINE_GENERATED_SHARED} ${BASE})
 add_library(game-shared EXCLUDE_FROM_ALL OBJECT ${GAME_SHARED} ${GAME_GENERATED_SHARED})
 list(APPEND TARGETS_OWN engine-shared game-shared)
 
+## MODIO
+set(MODIO_PLATFORM WIN)
+add_subdirectory(src/modio-sdk EXCLUDE_FROM_ALL)
 
 ########################################################################
 # CLIENT
@@ -1456,6 +1459,7 @@ if(CLIENT)
     components/menus_ingame.cpp
     components/menus_settings.cpp
     components/menus_start.cpp
+    components/menus_mods.cpp
     components/motd.cpp
     components/motd.h
     components/nameplates.cpp
@@ -1546,7 +1550,11 @@ if(CLIENT)
     $<TARGET_OBJECTS:engine-shared>
     $<TARGET_OBJECTS:game-shared>
   )
-  target_link_libraries(${TARGET_CLIENT} ${LIBS_CLIENT})
+
+  ## MODIO
+  target_compile_features(${TARGET_CLIENT} PUBLIC cxx_std_17)
+
+  target_link_libraries(${TARGET_CLIENT} PUBLIC ${LIBS_CLIENT})
 
   target_include_directories(${TARGET_CLIENT} PRIVATE
     ${FREETYPE_INCLUDE_DIRS}
@@ -1647,7 +1655,12 @@ add_executable(${TARGET_SERVER}
   $<TARGET_OBJECTS:engine-shared>
   $<TARGET_OBJECTS:game-shared>
 )
-target_link_libraries(${TARGET_SERVER} ${LIBS_SERVER})
+
+## MODIO
+target_compile_features(${TARGET_SERVER} PUBLIC cxx_std_17)
+
+
+target_link_libraries(${TARGET_SERVER} PUBLIC ${LIBS_SERVER})
 list(APPEND TARGETS_OWN ${TARGET_SERVER})
 list(APPEND TARGETS_LINK ${TARGET_SERVER})
 

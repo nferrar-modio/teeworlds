@@ -26,7 +26,9 @@
 #endif
 
 #if defined(CONF_FAMILY_WINDOWS)
-#define WIN32_LEAN_AND_MEAN
+#ifndef WIN32_LEAN_AND_MEAN
+	#define WIN32_LEAN_AND_MEAN
+#endif
 #include <windows.h>
 #include <imm.h>
 #endif

@@ -60,6 +60,14 @@ void CMenus::RenderStartMenu(CUIRect MainView)
 
 	TopMenu.HSplitBottom(5.0f, &TopMenu, 0); // little space
 	TopMenu.HSplitBottom(40.0f, &TopMenu, &Button);
+	static CButtonContainer s_ModsButton;;
+	if (DoButton_Menu(&s_ModsButton, Localize("Mods"), 0, &Button, Config()->m_ClShowStartMenuImages ? "mods" : 0, CUIRect::CORNER_ALL, Rounding, 0.5f) || CheckHotKey(KEY_M))
+	{
+		NewPage = PAGE_MODS;
+	}
+
+	TopMenu.HSplitBottom(5.0f, &TopMenu, 0); // little space
+	TopMenu.HSplitBottom(40.0f, &TopMenu, &Button);
 	static CButtonContainer s_DemoButton;
 	if(DoButton_Menu(&s_DemoButton, Localize("Demos"), 0, &Button, Config()->m_ClShowStartMenuImages ? "demos" : 0, CUIRect::CORNER_ALL, Rounding, 0.5f) || CheckHotKey(KEY_D))
 	{

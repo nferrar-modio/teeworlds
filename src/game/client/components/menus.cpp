@@ -1113,16 +1113,18 @@ void CMenus::RenderMenu(CUIRect Screen)
 			}
 			else
 			{
-				if(m_MenuPage == PAGE_NEWS)
+				if (m_MenuPage == PAGE_NEWS)
 					RenderNews(MainView);
-				else if(m_MenuPage == PAGE_INTERNET)
+				else if (m_MenuPage == PAGE_INTERNET)
 					RenderServerbrowser(MainView);
-				else if(m_MenuPage == PAGE_LAN)
+				else if (m_MenuPage == PAGE_LAN)
 					RenderServerbrowser(MainView);
-				else if(m_MenuPage == PAGE_DEMOS)
+				else if (m_MenuPage == PAGE_DEMOS)
 					RenderDemoList(MainView);
-				else if(m_MenuPage == PAGE_SETTINGS)
+				else if (m_MenuPage == PAGE_SETTINGS)
 					RenderSettings(MainView);
+				else if (m_MenuPage == PAGE_MODS)
+					RenderModsMenu(MainView);
 			}
 		}
 
