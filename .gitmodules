@@ -6,3 +6,6 @@
 	path = datasrc/maps
 	url = https://github.com/teeworlds/teeworlds-maps.git
 	branch = master
+[submodule "src/modio-sdk"]
+	path = src/modio-sdk
+	url = git@github.com:modio/modio-sdk.git
