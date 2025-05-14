@@ -1133,6 +1133,7 @@ set(EXPECTED_DATA
   ui/menuimages/local_server.png
   ui/menuimages/play_game.png
   ui/menuimages/settings.png
+  ui/menuimages/mods.png
   ui/no_skinpart.png
   ui/sound_icons.png
   ui/themes/auto.png

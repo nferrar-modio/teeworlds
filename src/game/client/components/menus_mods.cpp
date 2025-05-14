@@ -49,15 +49,18 @@ void CMenus::RenderModsMenu(CUIRect MainView)
 {
 	MainView.Margin(5.0f, &MainView);
 
-	MainView.HSplitTop(20.0f, 0, &MainView);
+	CUIRect Top, Title;
 
+	MainView.HSplitTop(256.0f, &Top, &MainView);
+	Top.HSplitTop(20.f, &Title, &Top);
+	UI()->DoLabel(&Title, "Mod.io", 14.f, TEXTALIGN_MC, Title.w * 0.9f, false);
 	if (IsUserAuthenticated())
 	{
 		// draw the mod list
 	}
 	else
 	{
-		RenderLoginBox(MainView);
+		RenderLoginBox(Top);
 	}
 
 	RenderBackButton(MainView);
@@ -65,14 +68,7 @@ void CMenus::RenderModsMenu(CUIRect MainView)
 
 void CMenus::RenderLoginBox(CUIRect View)
 {
-	if (Client()->State() != IClient::STATE_OFFLINE)
-		return;
-
-	// same size like tabs in top but variables not really needed
-	float Spacing = 3.0f;
-	float ButtonWidth = (View.w / 1.5f) - (Spacing * 5.0) / 6.0f;
-
 	// render background
-	View.HSplitBottom(60.0f, 0, &View);
+	//View.HSplitBottom(120.0f, &View, 0);
 	RenderBackgroundShadow(&View, true, 10.f);
 }
