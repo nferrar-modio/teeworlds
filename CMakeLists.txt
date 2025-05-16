@@ -1248,6 +1248,11 @@ generate_source("src/generated/protocol.h" "network_header")
 generate_source("src/generated/server_data.cpp" "server_content_source")
 generate_source("src/generated/server_data.h" "server_content_header")
 
+## MODIO
+set(MODIO_PLATFORM WIN)
+add_subdirectory(src/modio-sdk EXCLUDE_FROM_ALL)
+configure_file(cmake/ModioDefines.h.in ${CMAKE_BINARY_DIR}/generated/ModioDefines.h)
+target_sources(platform INTERFACE ${CMAKE_BINARY_DIR}/generated/ModioDefines.h)
 
 ########################################################################
 # SHARED
@@ -1296,6 +1301,7 @@ set_src(ENGINE_INTERFACE GLOB src/engine
   sound.h
   storage.h
   textrender.h
+  modio.h
 )
 set_src(ENGINE_SHARED GLOB src/engine/shared
   compression.cpp
@@ -1349,6 +1355,8 @@ set_src(ENGINE_SHARED GLOB src/engine/shared
   snapshot.cpp
   snapshot.h
   storage.cpp
+  modio.h
+  modio.cpp
 )
 set(ENGINE_GENERATED_SHARED src/generated/nethash.cpp src/generated/protocol.cpp src/generated/protocol.h)
 set_src(GAME_SHARED GLOB src/game
@@ -1381,11 +1389,7 @@ add_library(engine-shared EXCLUDE_FROM_ALL OBJECT ${ENGINE_INTERFACE} ${ENGINE_S
 add_library(game-shared EXCLUDE_FROM_ALL OBJECT ${GAME_SHARED} ${GAME_GENERATED_SHARED})
 list(APPEND TARGETS_OWN engine-shared game-shared)
 
-## MODIO
-set(MODIO_PLATFORM WIN)
-add_subdirectory(src/modio-sdk EXCLUDE_FROM_ALL)
-configure_file(cmake/ModioDefines.h.in ${CMAKE_BINARY_DIR}/generated/ModioDefines.h)
-target_sources(platform INTERFACE ${CMAKE_BINARY_DIR}/generated/ModioDefines.h)
+target_link_libraries(engine-shared PUBLIC modioStatic)
 
 ########################################################################
 # CLIENT

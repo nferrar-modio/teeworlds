@@ -12,6 +12,7 @@
 #include <engine/serverbrowser.h>
 #include <engine/shared/demo.h>
 #include <engine/shared/config.h>
+#include <engine/shared/modio.h>
 
 #include <generated/protocol.h>
 #include <generated/client_data.h>
@@ -231,6 +232,7 @@ void CGameClient::OnConsoleInit()
 	m_pEditor = Kernel()->RequestInterface<IEditor>();
 	m_pFriends = Kernel()->RequestInterface<IFriends>();
 	m_pBlacklist = Kernel()->RequestInterface<IBlacklist>();
+	m_pModio = Kernel()->RequestInterface<IModioManager>()->Get();
 
 	// setup pointers
 	m_pBinds = &::gs_Binds;
@@ -409,6 +411,11 @@ void CGameClient::OnInit()
 	m_IsEasterDay = time_iseasterday();
 	m_pMenus->RenderLoading();
 	m_InitComplete = true;
+
+	if (m_pModio)
+	{
+		m_pModio->Init();
+	}
 
 	int64 End = time_get();
 	char aBuf[256];

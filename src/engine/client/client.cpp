@@ -22,6 +22,7 @@
 #include <engine/sound.h>
 #include <engine/storage.h>
 #include <engine/textrender.h>
+#include <engine/modio.h>
 
 #include <engine/shared/config.h>
 #include <engine/shared/compression.h>
@@ -2005,17 +2006,6 @@ void CClient::Run()
 	// process pending commands
 	m_pConsole->StoreCommands(false);
 
-	bool Continue = true;
-	dbg_msg("modio", "Staring Handlers Thread.");
-	std::thread HandlerThread = std::thread([&Continue]()
-		{
-			while (Continue)
-			{
-				Modio::RunPendingHandlers();
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
-			}
-		});
-
 	while (1)
 	{
 		//
@@ -2179,8 +2169,6 @@ void CClient::Run()
 		// update local time
 		m_LocalTime = (time_get()-m_LocalStartTime)/(float)time_freq();
 	}
-
-	Continue = false;
 
 	GameClient()->OnShutdown();
 	Disconnect();
@@ -2610,6 +2598,7 @@ int main(int argc, const char **argv)
 	IEngineMap *pEngineMap = CreateEngineMap();
 	IMapChecker *pMapChecker = CreateMapChecker();
 	IEngineMasterServer *pEngineMasterServer = CreateEngineMasterServer();
+	IModioManager* pModioManager = CreateModioManager();
 
 	if(RandInitFailed)
 	{
@@ -2623,6 +2612,7 @@ int main(int argc, const char **argv)
 		RegisterFail = RegisterFail || !pKernel->RegisterInterface(pEngine);
 		RegisterFail = RegisterFail || !pKernel->RegisterInterface(pConsole);
 		RegisterFail = RegisterFail || !pKernel->RegisterInterface(pConfigManager);
+		RegisterFail = RegisterFail || !pKernel->RegisterInterface(pModioManager);
 
 		RegisterFail = RegisterFail || !pKernel->RegisterInterface(static_cast<IEngineSound*>(pEngineSound)); // register as both
 		RegisterFail = RegisterFail || !pKernel->RegisterInterface(static_cast<ISound*>(pEngineSound));

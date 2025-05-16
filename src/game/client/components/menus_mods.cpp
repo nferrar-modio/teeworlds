@@ -1,13 +1,16 @@
 #include "menus.h"
 #include <game/client/ui.h>
 
-#include "modio/ModioSDK.h"
+#include <engine/shared/modio.h>
 #include "ModioDefines.h"
+
+/// Now we get the modio SDK via
+/// Modio()->Get()->
+/// Time to cache it up
 
 bool CMenus::InitializeModio()
 {
 	bool bResult = false;
-
 	bool bComplete = false;
 	auto InitOptions = Modio::InitializeOptions(Modio::GameID(MODIO_GAME_ID), Modio::ApiKey(MODIO_GAME_API_KEY), Modio::Environment::Live, Modio::Portal::None, "UnknownUser");
 

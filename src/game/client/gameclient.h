@@ -47,6 +47,7 @@ class CGameClient : public IGameClient
 	class IEditor *m_pEditor;
 	class IFriends *m_pFriends;
 	class IBlacklist *m_pBlacklist;
+	class CModioManager *m_pModio;
 
 	CLayers m_Layers;
 	class CCollision m_Collision;
@@ -96,6 +97,7 @@ public:
 	class IEditor *Editor() { return m_pEditor; }
 	class IFriends *Friends() { return m_pFriends; }
 	class IBlacklist *Blacklist() { return m_pBlacklist; }
+	class CModioManager* Modio() const { return m_pModio; }
 
 	const char *NetobjFailedOn() { return m_NetObjHandler.FailedObjOn(); }
 	int NetobjNumFailures() { return m_NetObjHandler.NumObjFailures(); }
